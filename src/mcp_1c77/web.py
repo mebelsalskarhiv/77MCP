@@ -11,6 +11,12 @@ from starlette.responses import HTMLResponse, JSONResponse
 from starlette.routing import Mount, Route
 
 from . import tools
+from .api import (
+    api_root, api_status, api_list_objects, api_get_object,
+    api_get_module, api_get_form, api_search, api_validate_path,
+    api_validate_query, api_get_dependencies, api_get_dependents,
+    api_export_config, api_export_object, api_reload, cors_options
+)
 from .server import mcp
 
 DATA_DIR = os.environ.get("MCP_DATA_DIR", "/data")
@@ -295,7 +301,7 @@ async def handle_upload(request: Request) -> JSONResponse:
         return JSONResponse({"ok": False, "error": f"Parse error: {e}\n{traceback.format_exc()}"})
 
 
-async def api_status(request: Request) -> JSONResponse:
+async def api_status_old(request: Request) -> JSONResponse:
     """Return current configuration status as JSON."""
     loader = tools.get_loader()
     if not loader.is_loaded:
@@ -320,6 +326,12 @@ async def api_status(request: Request) -> JSONResponse:
     })
 
 
+async def serve_explorer(request: Request) -> HTMLResponse:
+    """Serve the interactive explorer UI."""
+    with open(os.path.join(os.path.dirname(__file__), 'static', 'explorer.html'), 'r', encoding='utf-8') as f:
+        return HTMLResponse(f.read())
+
+
 async def startup() -> None:
     """Try to load existing configuration on startup."""
     md_path = os.path.join(DATA_DIR, MD_FILENAME)
@@ -338,7 +350,22 @@ app = Starlette(
     routes=[
         Route("/", upload_page),
         Route("/upload", handle_upload, methods=["POST"]),
+        Route("/explorer", serve_explorer),
+        Route("/api", api_root),
         Route("/api/status", api_status),
+        Route("/api/objects", api_list_objects),
+        Route("/api/objects/{object_type}/{name}", api_get_object),
+        Route("/api/objects/{object_type}/{name}/module", api_get_module),
+        Route("/api/objects/{object_type}/{name}/form", api_get_form),
+        Route("/api/search", api_search),
+        Route("/api/validate/path", api_validate_path),
+        Route("/api/validate/query", api_validate_query, methods=["GET", "POST"]),
+        Route("/api/objects/{object_type}/{name}/dependencies", api_get_dependencies),
+        Route("/api/objects/{object_type}/{name}/dependents", api_get_dependents),
+        Route("/api/export", api_export_config),
+        Route("/api/export/{object_type}/{name}", api_export_object),
+        Route("/api/reload", api_reload, methods=["GET", "POST"]),
+        Route("/api/{path:path}", cors_options, methods=["OPTIONS"]),
         Mount("/", app=mcp_sse_app),
     ],
     on_startup=[startup],
