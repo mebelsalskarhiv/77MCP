@@ -74,6 +74,10 @@ claude mcp add --transport sse 1c77-metadata http://localhost:8080/sse
 | `validate_query` | Проверить все пути обращений к реквизитам в тексте запроса/кода |
 | `search_field` | Найти все объекты, содержащие реквизит с данным именем |
 | `get_objects_batch` | Пакетное получение метаданных нескольких объектов за один вызов |
+| `export_to_json` | Экспорт всей конфигурации в JSON формат |
+| `export_object_to_json` | Экспорт одного объекта метаданных в JSON |
+| `get_object_dependencies` | Найти зависимости объекта (какие объекты он использует) |
+| `find_dependent_objects` | Найти зависимые объекты (кто использует данный объект) |
 
 ### Примеры использования
 
@@ -94,6 +98,18 @@ search_field(field_name="Сумма")
 
 # Проверить запрос на ошибки в путях реквизитов
 validate_query(query_text="SELECT Документ.Товар.Артикул FROM Документ.РасходнаяНакладная AS Документ")
+
+# Экспорт конфигурации в JSON
+export_to_json(output_path="/tmp/config.json")
+
+# Экспорт одного объекта в JSON
+export_object_to_json(object_type="Документ", name="РасходнаяНакладная")
+
+# Найти зависимости документа (какие справочники он использует)
+get_object_dependencies(object_type="Документ", name="РасходнаяНакладная")
+
+# Найти кто зависит от справочника "Номенклатура"
+find_dependent_objects(object_type="Справочник", name="Номенклатура")
 ```
 
 ## Docker

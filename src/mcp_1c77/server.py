@@ -124,3 +124,46 @@ def get_objects_batch(object_type: str, names: list[str]) -> str:
         names: Список имён объектов
     """
     return tools.get_objects_batch(object_type, names)
+
+
+@mcp.tool()
+def export_to_json(output_path: str = "") -> str:
+    """Экспорт всей конфигурации в JSON формат.
+
+    Args:
+        output_path: Путь для сохранения JSON файла. Если пустой — возвращает JSON строку.
+    """
+    return tools.export_to_json(output_path)
+
+
+@mcp.tool()
+def export_object_to_json(object_type: str, name: str) -> str:
+    """Экспорт одного объекта метаданных в JSON формат.
+
+    Args:
+        object_type: Тип объекта (Справочник, Документ, Регистр, и т.д.)
+        name: Имя объекта
+    """
+    return tools.export_object_to_json(object_type, name)
+
+
+@mcp.tool()
+def get_object_dependencies(object_type: str, name: str) -> str:
+    """Найти все объекты, которые использует данный объект (зависимости).
+
+    Args:
+        object_type: Тип объекта (Справочник, Документ, Регистр)
+        name: Имя объекта
+    """
+    return tools.get_object_dependencies(object_type, name)
+
+
+@mcp.tool()
+def find_dependent_objects(object_type: str, name: str) -> str:
+    """Найти все объекты, которые зависят от данного объекта.
+
+    Args:
+        object_type: Тип объекта (Справочник, Документ, Регистр, Перечисление)
+        name: Имя объекта
+    """
+    return tools.find_dependent_objects(object_type, name)
