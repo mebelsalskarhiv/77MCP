@@ -3,6 +3,8 @@ pyproject.toml
 src/mcp_1c77/__init__.py
 src/mcp_1c77/__main__.py
 src/mcp_1c77/bracket_parser.py
+src/mcp_1c77/cli.py
+src/mcp_1c77/client.py
 src/mcp_1c77/metadata.py
 src/mcp_1c77/models.py
 src/mcp_1c77/ole_reader.py
@@ -12,8 +14,10 @@ src/mcp_1c77/web.py
 src/mcp_1c77.egg-info/PKG-INFO
 src/mcp_1c77.egg-info/SOURCES.txt
 src/mcp_1c77.egg-info/dependency_links.txt
+src/mcp_1c77.egg-info/entry_points.txt
 src/mcp_1c77.egg-info/requires.txt
 src/mcp_1c77.egg-info/top_level.txt
+src/mcp_1c77/api/__init__.py
 tests/test_bracket_parser.py
 tests/test_metadata.py
 tests/test_ole_reader.py
