@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: mcp-1c77
+Version: 0.1.0
+Summary: MCP server for 1C:Enterprise 7.7 configuration metadata
+Requires-Python: >=3.11
+Requires-Dist: mcp>=1.7
+Requires-Dist: olefile>=0.47
+Requires-Dist: pydantic>=2.0
+Requires-Dist: uvicorn>=0.30
+Requires-Dist: python-multipart>=0.0.9
+Requires-Dist: starlette>=0.37
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0; extra == "dev"
